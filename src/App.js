@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import Generator from './components/Generator'
+import Analyzer from './components/Analyzer'
+import Info from './components/Info'
+
 import Navigation from './components/Navigation'
-import Main from './components/Main'
+
 
 class App extends Component {
 
@@ -17,9 +22,18 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Navigation />
+        
+        <Router>
+          <div>
+            <nav className="navigation">
+              <Navigation />
 
-        <Main navigation={this.state.navigation}/>
+              <Route path="/generate" exact component={Generator} />
+              <Route path="/analyze" component={Analyzer} />
+              <Route path="/info" component={Info} />
+            </nav>                      
+          </div>
+        </Router>
 
       </div>
     );
