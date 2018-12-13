@@ -29,8 +29,8 @@ class App extends Component {
               <Navigation />
 
               <Route path="/generate" exact component={Generator} />
-              <Route path="/analyze" component={Analyzer} />
-              <Route path="/info" component={Info} />
+              <Route path="/analyze" exact component={Analyzer} />
+              <Route path="/info" exact component={Info} />
             </nav>                      
           </div>
         </Router>
