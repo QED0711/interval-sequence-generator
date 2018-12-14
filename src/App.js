@@ -17,16 +17,25 @@ class App extends Component {
     super();
     this.state = {
       navigation: "generate",
-      currentChord: null,
-      currentCollection: null
+      generate: {
+        currentChord: null,
+        currentCollection: null
+      },
+      analyze: {
+        currentPCSet: null,
+        currentPCSVector: null,
+      }
     }
 
-    this.setCurrentChord = this.setCurrentChord.bind(this);
+    this.setGenerateResults = this.setGenerateResults.bind(this);
   }
 
-  setCurrentChord(chord){
+  setGenerateResults(chord, collection){
     this.setState({
-      currentChord: chord,
+      generate: {
+        currentChord: chord,
+        currentCollection: collection
+      }
     })
   }
 
@@ -41,7 +50,7 @@ class App extends Component {
             </nav>                      
               <Route path="/" exact component={Landing}/>
               <Route path="/generate" exact 
-                render={props => <Generator {...props} currentChord={this.state.currentChord} setCurrentChord={this.setCurrentChord}/>} 
+                render={props => <Generator {...props} parentContainer={this}/>} 
               />
               <Route path="/analyze" exact component={Analyzer} />
               <Route path="/info" exact component={Info} />
