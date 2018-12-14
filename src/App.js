@@ -3,6 +3,7 @@ import './App.css';
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
+import Landing from './components/Landing'
 import Generator from './components/Generator'
 import Analyzer from './components/Analyzer'
 import Info from './components/Info'
@@ -15,8 +16,18 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      navigation: "generate"
+      navigation: "generate",
+      currentChord: null,
+      currentCollection: null
     }
+
+    this.setCurrentChord = this.setCurrentChord.bind(this);
+  }
+
+  setCurrentChord(chord){
+    this.setState({
+      currentChord: chord,
+    })
   }
 
   render() {
@@ -27,11 +38,13 @@ class App extends Component {
           <div>
             <nav className="navigation">
               <Navigation />
-
-              <Route path="/generate" exact component={Generator} />
+            </nav>                      
+              <Route path="/" exact component={Landing}/>
+              <Route path="/generate" exact 
+                render={props => <Generator {...props} currentChord={this.state.currentChord} setCurrentChord={this.setCurrentChord}/>} 
+              />
               <Route path="/analyze" exact component={Analyzer} />
               <Route path="/info" exact component={Info} />
-            </nav>                      
           </div>
         </Router>
 
