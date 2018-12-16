@@ -34,7 +34,7 @@ class Vector{
     }
 }
 
-// export default Vector;
+export default Vector;
 
-let v = Vector.fromPCSet([0, 4]);
-v.print()
+// let v = Vector.fromPCSet([0, 4]);
+// v.print()

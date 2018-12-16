@@ -16,7 +16,6 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      navigation: "generate",
       generate: {
         currentChord: null,
         currentCollection: null
@@ -29,6 +28,7 @@ class App extends Component {
     }
 
     this.setGenerateResults = this.setGenerateResults.bind(this);
+    this.setAnalyzeResults = this.setAnalyzeResults.bind(this);
   }
 
   setGenerateResults(chord, collection){
@@ -40,8 +40,14 @@ class App extends Component {
     })
   }
 
-  setAnalyzeResults(pcs){
-    
+  setAnalyzeResults(pcs, vector, results){
+    this.setState({
+      analyze: {
+        currentPCSet: pcs,
+        currentPCSVector: vector,
+        validSets: results
+      }
+    })
   }
 
   render() {
@@ -57,7 +63,9 @@ class App extends Component {
               <Route path="/generate" exact 
                 render={props => <Generator {...props} parentContainer={this}/>} 
               />
-              <Route path="/analyze" exact component={Analyzer} />
+              <Route path="/analyze" exact 
+                render={props => <Analyzer {...props} parentContainer={this}/>}
+              />
               <Route path="/info" exact component={Info} />
           </div>
         </Router>
