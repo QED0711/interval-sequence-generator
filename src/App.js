@@ -18,6 +18,7 @@ class App extends Component {
     this.state = {
       generate: {
         currentChord: null,
+        currentChordIndex: null,
         currentCollection: null
       },
       analyze: {
@@ -31,10 +32,11 @@ class App extends Component {
     this.setAnalyzeResults = this.setAnalyzeResults.bind(this);
   }
 
-  setGenerateResults(chord, collection){
+  setGenerateResults(chordIndex, collection){
     this.setState({
       generate: {
-        currentChord: chord,
+        currentChord: collection[chordIndex],
+        currentChordIndex: chordIndex,
         currentCollection: collection
       }
     })
