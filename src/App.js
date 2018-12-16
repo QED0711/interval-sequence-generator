@@ -24,6 +24,7 @@ class App extends Component {
       analyze: {
         currentPCSet: null,
         currentPCSVector: null,
+        validSets: null
       }
     }
 
@@ -37,6 +38,10 @@ class App extends Component {
         currentCollection: collection
       }
     })
+  }
+
+  setAnalyzeResults(pcs){
+    
   }
 
   render() {
