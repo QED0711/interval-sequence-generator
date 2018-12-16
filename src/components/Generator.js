@@ -15,7 +15,7 @@ class Generator extends Component {
 
     getChords = () => {
         const text = document.getElementById("interval-set").value
-        const intervalSet = textToNumArray(text, "This tool only handles between 1 and 6 pitch-class intervals in the set. Please change your selection.")
+        const intervalSet = textToNumArray(text, 6, "This tool only handles between 1 and 6 pitch-class intervals in the set. Please change your selection.")
         if(intervalSet.length > 0){
             let collection = generateFromSet(intervalSet);
             this.parentContainer.setGenerateResults(collection[0], collection);
@@ -27,6 +27,7 @@ class Generator extends Component {
         return(
             <div>
                 <input type="text" id="interval-set"/>
+
                 
                 <button onClick={this.getChords}>Generate Sequences</button>
                 <h1>Results: {generateState.currentChord ? generateState.currentCollection.length * 12 : "None"}</h1>
