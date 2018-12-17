@@ -36,7 +36,7 @@ class Filter{
     }
 
     runFilters(chord){
-
+        
     }
 
     setFilters(options){
