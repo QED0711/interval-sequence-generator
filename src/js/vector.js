@@ -1,9 +1,9 @@
 class Vector{
     constructor(icVector){
+        this.valid = icVector.length === 6;
         for(let i = 0; i < icVector.length; i++){
             this[i + 1] = icVector[i] 
         }
-        this.valid = true;
     }
 
     static fromPCSet(pcs){

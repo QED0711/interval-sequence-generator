@@ -7,13 +7,13 @@ class Navigation extends Component {
 
     render(){
         return(
-            <div>
+            <nav>
                 <Link to="/info">Info</Link>
               |
                 <Link to="/generate">generate</Link>
               |
                 <Link to="/analyze">analyze</Link>                
-            </div>
+            </nav>
         )
     }
 
