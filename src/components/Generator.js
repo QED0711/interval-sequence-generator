@@ -40,6 +40,10 @@ class Generator extends Component {
                 <div id="notation-container"></div>
                 <button onClick={function(){renderNotes([60, 62,64,66])}}>Render Them Notes</button>
 
+                {
+                    console.log(generateState)
+                }
+
             </div>
         )
     }

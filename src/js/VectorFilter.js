@@ -1,20 +1,21 @@
+import Vector from "./vector";
 
 class VectorFilter {
 	constructor(){
-		this[0] = {'type' : null, 'value' : 0};
 		this[1] = {'type' : null, 'value' : 0};
 		this[2] = {'type' : null, 'value' : 0};
 		this[3] = {'type' : null, 'value' : 0};
 		this[4] = {'type' : null, 'value' : 0};
 		this[5] = {'type' : null, 'value' : 0};
+		this[6] = {'type' : null, 'value' : 0};
 	}
 
 	setVector(intervalClass, type, value){
 		this[intervalClass] = {'type' : type, 'value' : value}
 	}
 
-	vectorMatch(chordVector){
-		for(let i = 0; i < 6; i++){
+	runVectorFilter(chordVector){
+		for(let i = 1; i <= 6; i++){
 			if(this[i].type){
 				switch(this[i].type){
 					case('lessThan'):

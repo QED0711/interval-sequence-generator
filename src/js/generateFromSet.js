@@ -1,4 +1,6 @@
 
+import Vector from './vector'
+
 // Helper Functions ==========================================================
 
 function unique(arr){
@@ -18,11 +20,33 @@ function pitchChain(arr, set){
     return unique(chord) ? chord : false;
 }
 
+function applySet(intervalArr, setArr){
+    return intervalArr.map(i => {
+        return setArr[i];
+    })
+}
+
+function expandPCS(pcs){
+    let expanded = [pcs[0], pcs[1]];
+    for(let i = 2; i < pcs.length; i++){
+        expanded[i] = pcs[i]
+        while(expanded[i] < expanded[i - 1]){
+            expanded[i] += 12;
+        }
+    }
+    return expanded;
+}
+
 function chordInfo(intervalArr, set){
+    let pcs = pitchChain(intervalArr, set);
     return {
-        structure: intervalArr,
+        set: set,
+        codedSequence: intervalArr,
+        intervalSequence: applySet(intervalArr, set),
         size: intervalArr.length + 1,
-        pcs: pitchChain(intervalArr, set)
+        pcs: pcs,
+        expandedPCS: expandPCS(pcs),
+        vector: Vector.fromPCSet(pcs)
     }
 }
 
@@ -46,7 +70,7 @@ function generateFromSet(set){
         }
         collection.push(chord)
         for(let i = 0; i < set.length; i++){
-            let newChord = chordInfo(Object.assign({}, chord, {structure: [...chord.structure, i]}).structure, set )
+            let newChord = chordInfo(Object.assign({}, chord, {codedSequence: [...chord.codedSequence, i]}).codedSequence, set )
             if(newChord.pcs){
                 intervalStacker(set, newChord)
             }
