@@ -80,9 +80,26 @@ function generateFromSet(set){
     structure.forEach(chord => {
         intervalStacker(set, chord);
     })
-    return collection.sort((a,b,) => {
+    collection = collection.sort((a,b,) => {
         return a.size-b.size
     })
+    
+    
+    let transpositions = []
+    for(let i = 0; i < collection.length; i++){
+        transpositions.push(collection[i])
+        for(let j = 1; j < 12; j++){
+            let transposedChord = {...collection[i]}
+            transposedChord.pcs = transposedChord.pcs.map(pitch => {
+                return pitch + j > 11 ? (pitch + j - 12) : (pitch + j);
+            });
+            transposedChord.expandedPCS = transposedChord.expandedPCS.map(pitch => {
+                return pitch + j;
+            });
+            transpositions.push(transposedChord);
+        }
+    }
+    return transpositions
 }
 
 export default generateFromSet;
