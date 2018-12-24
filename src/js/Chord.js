@@ -18,6 +18,23 @@ function chordInfo(intervalArr, set){
 
 import Vector from './vector'
 
+function unique(arr){
+    return arr.length === new Set(arr).size;
+}
+
+function pitchChain(arr, set){
+    let intervalArr = arr.map(x => {
+        return set[x]
+    })
+    let chord = [0];
+    for(let i = 0; i < intervalArr.length; i++){
+        let pitch = intervalArr[i] + chord[chord.length-1]
+        pitch = pitch < 12 ? pitch : pitch - 12;
+        chord.push(pitch)
+    }
+    return unique(chord) ? chord : false;
+}
+
 
 function applySet(intervalArr, setArr){
     return intervalArr.map(i => {
@@ -36,6 +53,16 @@ function expandPCS(pcs){
     return expanded;
 }
 
+function transposeCompressed(chordArr, interval){
+    return chordArr.map(pc => {
+        if(pc + interval > 11){
+            return(pc + interval - 12);
+        } else {
+            return pc + interval
+        }
+    })
+}
+
 
 class Chord {
     constructor(intervalArr, set){
@@ -46,13 +73,25 @@ class Chord {
         this.intervalSequence = applySet(intervalArr, set),
         this.size = intervalArr.length + 1,
         this.pcs = pcs,
+        this.transpositions = this.findTranspositions();
         this.expandedPCS = expandPCS(pcs),
         this.vector = Vector.fromPCSet(pcs)        
     }
 
-    static fromExpandedChord(chordArr){
-        let chordArr = chordArr.map(x => x % 12);
+    // static fromExpandedChord(chordArr){
+    //     let chordArr = chordArr.map(x => x % 12);
+    // }
+
+    findTranspositions(){
+        let transpositions = [];    
+    
+        for(let i = 1; i <= 11; i++){
+            transpositions.push(
+                {pcs: transposeCompressed(this.pcs, i)}
+            )
+        }
         
+        return transpositions;         
     }
 }
 
