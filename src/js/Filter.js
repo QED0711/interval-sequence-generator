@@ -62,7 +62,7 @@ class Filter{
         return true
     }
 
-    // Change Filter Properties
+    // Change Filter Properties +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     setFilters(options){
         for(let key in options){
@@ -76,7 +76,7 @@ class Filter{
         }
     }
 
-    // Individual filter methods
+    // Individual filter methods +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     matchSize(chord){
         return (chord.size >= this.minSize && chord.size <= this.maxSize)
