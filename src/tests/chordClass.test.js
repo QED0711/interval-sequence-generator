@@ -13,7 +13,7 @@ import Chord from '../js/Chord';
 // import VectorFilter from './js/VectorFilter';
 
 
-describe("This is a test test", function(){
+describe("Chord Class", function(){
     let chord1 = new Chord([1,0], [3,4]);
 
     it("can create a chordInfo object from a chord array", function(){
@@ -29,6 +29,6 @@ describe("This is a test test", function(){
     })
 
     it("knows the chord and interval sequence notation for itself", function(){
-        expect(chord1.designation()).to.equal("(1,0)-0-<1,0>")
+        expect(chord1.designation).to.equal("(3,4)-<1,0>")
     })
 })
