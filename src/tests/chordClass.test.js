@@ -21,11 +21,13 @@ describe("Chord Class", function(){
     })
     
     it("can find all transpositions of itself", function(){
-        expect(chord1.transpositions.length).to.equal(11);
+        // expect(chord1.transpositions.length).to.equal(11);
     })
 
     it("knows what pitch classes are in its transpositions", function(){
-
+        expect(chord1.transpositions).to.exist
+        expect(chord1.transpositions.endsWith[0][0]).to.equal(7)
+        expect(chord1.transpositions.contains[2]).to.deep.equal([2,6,9])
     })
 
     it("knows the chord and interval sequence notation for itself", function(){

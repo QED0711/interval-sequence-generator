@@ -43,3 +43,7 @@ export function transposeCompressed(chordArr, interval){
         }
     })
 }
+
+export function transposePC(pc, interval){
+    return pc + interval >= 12 ? pc + interval - 12 : pc + interval;
+}
