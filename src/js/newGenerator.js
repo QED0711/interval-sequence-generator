@@ -24,8 +24,8 @@ class Chord {
         this.pcs = Chord.pcsFromSequence(set, sequence)        
     }
 
-    static chordFromDesignation(designation){
-        let info = designation.split("-");
+    orderedPCS(){
+        let info = this.designation.split("-");
         let set = info[0].match(/\d+/g).map(x => parseInt(x));
         let startingPitch = parseInt(info[1]);
         let sequence = info[2].match(/\d+/g).map(x => parseInt(x));
@@ -35,7 +35,31 @@ class Chord {
             if(nextPC >= 12) {nextPC = nextPC - 12}
             chord.push(nextPC) 
         }
-        console.log(chord)
+        return chord
+    }
+
+    expand(pcs){
+        let expanded = [pcs[0], pcs[1]];
+        for(let i = 2; i < pcs.length; i++){
+            expanded[i] = pcs[i]
+            while(expanded[i] < expanded[i - 1]){
+                expanded[i] += 12;
+            }
+        }
+        return expanded;        
+    }
+
+    getVector(){
+        let pcs = this.orderedPCS();
+        let vector = [0,0,0,0,0,0];
+        for(let i = 0; i < pcs.length - 1; i++){
+            for(let j = i + 1; j < pcs.length; j++){
+                let interval = Math.abs(pcs[i] - pcs[j]);
+                let ic = interval > 6 ? 12 - interval : interval;
+                vector[ic - 1]++
+            }
+        }
+        return vector
     }
 
     static pcsFromSequence(set, sequence){
@@ -54,10 +78,12 @@ class Chord {
         }
         return chord;
     }
-
 }
 
-Chord.chordFromDesignation("(10,11)-0-<1,0,0,1,0,0>");
+
+let c = new Chord([3,4], [0, 1,0,0,1,0,0])
+console.log(c.getVector())
+
 
 function chordInfo(set, sequence){
     return {
