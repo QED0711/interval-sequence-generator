@@ -20,7 +20,10 @@
 //       expect(f.sequenceMatch).to.exist
 //       expect(f.symetrical).to.exist
 
-import VectorFilter from './VectorFilter';
+import Vector from './vector';
+import VectorFilter from './VectorFilter.mjs';
+import Chord from './newChord.mjs'
+
 
 function isSymetrical(arr){
     if(arr.length <= 1){
@@ -66,7 +69,12 @@ class Filter{
 
     setFilters(options){
         for(let key in options){
-            this[key] = options[key]
+            if(key === "includes"){
+                this[key] = options[key]
+                this.includesVector = Vector.fromPCSet(options[key]);
+            } else {
+                this[key] = options[key]
+            }
         }
     }
 
@@ -83,10 +91,9 @@ class Filter{
     }
 
     matchIncludes(chord){
-        for(let pitch of this.includes){
-            if(!chord.pcs.includes(pitch)){
-                return false
-            }
+        let chordVector = chord.getVector();
+        for(let i = 0; i <= 6; i++){
+            if(this.includesVector[i] > chordVector[i]) return false;
         }
         return true;
     }
@@ -129,25 +136,17 @@ class Filter{
 }
 
 
-/* 
+let c = new Chord([3,4], [1,0]);
+// console.log(c.getVector());
+// console.log(c);
 
-chord input:
-{
-    codedSequence: (11) [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-    expandedPCS: (12) [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
-    intervalSequence: (11) [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
-    pcs: (12) [0, 5, 10, 3, 8, 1, 6, 11, 4, 9, 2, 7]
-    set: (2) [4, 5]
-    size: 12
-}
 
-*/
+let f = new Filter();
+f.setFilters({
+    includes: [6, 9]
+})
 
-// f = new Filter({
-//     minSize: 5,
-//     maxSize: 10
-// })
+console.log(f.matchIncludes(c))
 
-// console.log(f)
 
 export default Filter;
