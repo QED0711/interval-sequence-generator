@@ -1,3 +1,6 @@
+import Vector from './vector.mjs'
+
+
 class Chord {
     constructor(set, sequence){
         this.set = set;
@@ -56,7 +59,7 @@ class Chord {
     }
 
     getVector(){
-        let pcs = this.orderedPCS();
+        let pcs = this.getOrderedPCS();
         let vector = [0,0,0,0,0,0];
         for(let i = 0; i < pcs.length - 1; i++){
             for(let j = i + 1; j < pcs.length; j++){
@@ -65,7 +68,18 @@ class Chord {
                 vector[ic - 1]++
             }
         }
-        return vector
+        return new Vector(vector)
+    }
+
+    transpose(num = 0){
+        let designation = this.designation.split("-");
+        designation[1] = num.toString();
+        this.designation = designation.join("-");
+        return this;
+    }
+
+    applyFilter(filter){
+        return filter.run(this);
     }
 
 }
