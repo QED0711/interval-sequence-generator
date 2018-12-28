@@ -8,6 +8,8 @@ import App from '../App';
 
 import Chord from '../js/Chord';
 
+
+
 // import Vector from './js/vector';
 // import Filter from './js/Filter';
 // import VectorFilter from './js/VectorFilter';

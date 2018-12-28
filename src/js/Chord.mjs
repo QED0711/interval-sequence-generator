@@ -1,4 +1,4 @@
-import Vector from './vector'
+import Vector from './vector.mjs'
 import { pitchChain, applySet, expandPCS, transposeCompressed, transposePC} from './chordHelperFunctions';
 
 

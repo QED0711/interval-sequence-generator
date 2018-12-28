@@ -1,5 +1,5 @@
 
-import Vector from './vector'
+import Vector from './vector.mjs'
 
 // Helper Functions ==========================================================
 
