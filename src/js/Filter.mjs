@@ -34,16 +34,16 @@ function isSymetrical(arr){
 }
 
 class Filter{
-    constructor(){
-        this.minSize = 2;
-        this.maxSize = 12;
-        this.includes = null;
-        this.excludes = null;
-        this.bassPitch = null;
-        this.sopranoPitch = null;
-        this.vectorMatch = new VectorFilter();
-        this.sequence = null; 
-        this.symetrical = false;
+    constructor(options = {}){
+        this.minSize = options.minSize || 2;
+        this.maxSize = options.maxSize || 12;
+        this.includes = options.includes || null;
+        this.excludes = options.excludes || null;
+        this.bassPitch = options.bassPitch || null;
+        this.sopranoPitch = options.sopranoPitch || null;
+        this.sequence = options.sequence || null; 
+        this.symetrical = options.symetrical || false;
+        this.vectorMatch =  new VectorFilter();
     }
 
     // Run the Filters against a chord
@@ -69,12 +69,7 @@ class Filter{
 
     setFilters(options){
         for(let key in options){
-            if(key === "includes"){
-                this[key] = options[key]
-                this.includesVector = Vector.fromPCSet(options[key]);
-            } else {
-                this[key] = options[key]
-            }
+            this[key] = options[key]
         }
     }
 
@@ -91,11 +86,24 @@ class Filter{
     }
 
     matchIncludes(chord){
-        let chordVector = chord.getVector();
-        for(let i = 0; i <= 6; i++){
-            if(this.includesVector[i] > chordVector[i]) return false;
+        let transpositions = [];
+        let match;
+        for(let i = 0; i < 12; i++){
+            match = true;
+            let transposedIncludes = this.includes.map(pc => {
+                let transposed = pc + i;
+                return transposed > 12 ? transposed - 12 : transposed;
+            });
+            // console.log(transposedIncludes)
+            for(let j = 0; j < transposedIncludes.length; j++){
+                if(!chord.pcs[transposedIncludes[j]]) {
+                    match = false;
+                    break;
+                }
+            }
+            if(match) break
         }
-        return true;
+        return match
     }
 
     matchExcludes(chord){
@@ -136,17 +144,13 @@ class Filter{
 }
 
 
-let c = new Chord([3,4], [1,0]);
-// console.log(c.getVector());
-// console.log(c);
-
-
-let f = new Filter();
-f.setFilters({
-    includes: [6, 9]
-})
-
+let f = new Filter({includes: [6,0,8]});
+// console.log(f)
+let c = new Chord([3,4], [1,0,0,1,0,0]);
+console.time("Includes Filter")
 console.log(f.matchIncludes(c))
+console.timeEnd("Includes Filter")
+
 
 
 export default Filter;
