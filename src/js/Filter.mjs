@@ -94,7 +94,6 @@ class Filter{
                 let transposed = pc + i;
                 return transposed > 12 ? transposed - 12 : transposed;
             });
-            // console.log(transposedIncludes)
             for(let j = 0; j < transposedIncludes.length; j++){
                 if(!chord.pcs[transposedIncludes[j]]) {
                     match = false;
@@ -104,6 +103,7 @@ class Filter{
             if(match) break
         }
         return match
+        // Update this further to return an object that has the boolean return value and transpositions
     }
 
     matchExcludes(chord){
