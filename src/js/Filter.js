@@ -21,8 +21,8 @@
 //       expect(f.symetrical).to.exist
 
 import Vector from './vector';
-import VectorFilter from './VectorFilter.mjs';
-import Chord from './newChord.mjs'
+import VectorFilter from './VectorFilter';
+import Chord from './newChord'
 
 
 function isSymetrical(arr){
@@ -84,7 +84,7 @@ class Filter{
     // Individual filter methods +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     matchSize(chord){
-        return (chord.size >= this.minSize && chord.size <= this.maxSize)
+        return (chord.pcs.length >= this.minSize && chord.pcs.length <= this.maxSize)
     }
 
     matchIncludes(chord){
@@ -195,7 +195,7 @@ class Filter{
     }
 
     matchVector(chord){
-        return this.vectorMatch.runVectorFilter(chord.vector)
+        return this.vectorMatch.runVectorFilter(chord.getVector())
     }
 
     matchUserSequence(chord){
@@ -215,18 +215,18 @@ class Filter{
 }
 
 
-let f = new Filter({
-    // excludes: [7],
-    includes: [6, 2],
-    // bassPitch: 0,
-    // sopranoPitch: 0
-});
+// let f = new Filter({
+//     // excludes: [7],
+//     // includes: [6, 2],
+//     // bassPitch: 0,
+//     // sopranoPitch: 0
+// });
 
-let c = new Chord([3,4], [1,0, 1]);
+// let c = new Chord([3,4], [1,0, 1]);
 
-console.time("Pitch Content Filters")
-console.log(f.matchPitchContent(c))
-console.timeEnd("Pitch Content Filters")
+// console.time("Pitch Content Filters")
+// console.log(f.matchPitchContent(c))
+// console.timeEnd("Pitch Content Filters")
 
 
 
