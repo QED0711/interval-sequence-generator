@@ -86,7 +86,7 @@ class Filter{
     }
 
     matchIncludes(chord){
-        let transpositions = [];
+        let transpositions = {length: 0};
         let match;
         for(let i = 0; i < 12; i++){
             match = true;
@@ -102,27 +102,89 @@ class Filter{
             }
             if(match){
               // 12 - i gives the inverse which is the actual transposition we are looking for. 
-              transpositions.unshift(12 - i);  
+              transpositions[12 - i] = 12 - i;
+              transpositions.length ++;
             } 
         }
         return {match: !!transpositions.length, validTranspositions: transpositions};
     }
 
     matchExcludes(chord){
-        for(let pitch of this.excludes){
-            if(chord.pcs.includes(pitch)){
-                return false
+        let transpositions = {length: 0};
+        let match;
+        for(let i = 0; i < 12; i++){
+            match = true;
+            let transposedExcludes = this.excludes.map(pc => {
+                let transposed = pc + i;
+                return transposed % 12;
+            });
+
+            for(let j = 0; j < transposedExcludes.length; j++){
+                if(chord.pcs[transposedExcludes[j]]) {
+                    match = false;
+                    break;
+                }
             }
+            if(match){
+              // 12 - i gives the inverse which is the actual transposition we are looking for. 
+              transpositions[12 - i] = 12 - i;
+              transpositions.length ++;
+            } 
         }
-        return true;
+        return {match: !!transpositions.length, validTranspositions: transpositions};
     }
 
     matchBassPitch(chord){
-        return chord.pcs[0] === this.bassPitch;
+        const bp =  this.bassPitch
+        let transposition = {
+            match: true,
+            validTranspositions: {}
+        }
+        transposition.validTranspositions[bp] = bp;
+        return transposition;
     }
 
     matchSopranoPitch(chord){
-        return chord.pcs[chord.pcs.length - 1] === this.sopranoPitch;
+        let sp = chord.getOrderedPCS();
+        sp = sp[sp.length - 1]
+        sp = this.sopranoPitch >= sp ? this.sopranoPitch - sp : 12 - (sp - this.sopranoPitch);
+        
+        let transposition = {
+            match: true,
+            validTranspositions: {}
+        }
+
+        transposition.validTranspositions[sp] = sp;
+        return transposition
+    }
+
+    matchPitchContent(chord){
+        let pcContent = [];
+        if(!!this.includes){
+            pcContent.push(this.matchIncludes(chord))
+        }
+        if(!!this.excludes){
+            pcContent.push(this.matchExcludes(chord))
+        }
+        if(!!this.bassPitch){
+            pcContent.push(this.matchBassPitch(chord));
+        }
+        if(!!this.sopranoPitch){
+            pcContent.push(this.matchSopranoPitch(chord))
+        }
+        let validTranspositions = []
+        let match;
+        for(let i = 0; i < 12; i++){
+            match = true;
+            for(let j = 0; j < pcContent.length; j++){
+                if(typeof pcContent[j].validTranspositions[i] !== 'number'){
+                    match = false
+                    break;
+                }
+            }
+            if(match) validTranspositions.push(i); 
+        }
+        return validTranspositions;
     }
 
     matchVector(chord){
@@ -140,20 +202,25 @@ class Filter{
     }
 
     matchSymetrical(chord){
-        return isSymetrical(chord.codedSequence);
+        return isSymetrical(chord.sequence);
     }
 
 }
 
 
-let f = new Filter({includes: [6]});
+let f = new Filter({
+    excludes: [11],
+    includes: [6],
+    // bassPitch: 2,
+    // sopranoPitch: 9
+});
 // expect: 6, 2, 11
 // console.log(f)
 let c = new Chord([3,4], [1,0]);
 
-console.time("Includes Filter")
-console.log(f.matchIncludes(c))
-console.timeEnd("Includes Filter")
+console.time("Excludes Filter")
+console.log(f.matchPitchContent(c))
+console.timeEnd("Excludes Filter")
 
 
 
