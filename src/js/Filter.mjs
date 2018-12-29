@@ -39,8 +39,10 @@ class Filter{
         this.maxSize = options.maxSize || 12;
         this.includes = options.includes || null;
         this.excludes = options.excludes || null;
-        this.bassPitch = options.bassPitch || null;
-        this.sopranoPitch = options.sopranoPitch || null;
+
+        this.bassPitch = typeof options.bassPitch === 'number' ? options.bassPitch : null
+        this.sopranoPitch = typeof options.sopranoPitch === 'number' ? options.sopranoPitch : null
+
         this.sequence = options.sequence || null; 
         this.symetrical = options.symetrical || false;
         this.vectorMatch =  new VectorFilter();
@@ -141,6 +143,7 @@ class Filter{
             validTranspositions: {}
         }
         transposition.validTranspositions[bp] = bp;
+        console.log(transposition)
         return transposition;
     }
 
@@ -157,22 +160,26 @@ class Filter{
         transposition.validTranspositions[sp] = sp;
         return transposition
     }
-
+    // matchPitchContent runs all pitch related filters
+    // (includes, excludes, bassPitch, sopranoPitch)
+    // Filters only run if defined
+    // Returns only the transpositions that meet all criteria
     matchPitchContent(chord){
         let pcContent = [];
+        if(typeof this.bassPitch === 'number'){
+            pcContent.push(this.matchBassPitch(chord));
+        }
+        if(typeof this.sopranoPitch === 'number'){
+            pcContent.push(this.matchSopranoPitch(chord))
+        }
         if(!!this.includes){
             pcContent.push(this.matchIncludes(chord))
         }
         if(!!this.excludes){
             pcContent.push(this.matchExcludes(chord))
         }
-        if(!!this.bassPitch){
-            pcContent.push(this.matchBassPitch(chord));
-        }
-        if(!!this.sopranoPitch){
-            pcContent.push(this.matchSopranoPitch(chord))
-        }
         let validTranspositions = []
+        if(pcContent.length === 0) return [0];
         let match;
         for(let i = 0; i < 12; i++){
             match = true;
@@ -209,18 +216,17 @@ class Filter{
 
 
 let f = new Filter({
-    excludes: [11],
-    includes: [6],
-    // bassPitch: 2,
-    // sopranoPitch: 9
+    // excludes: [7],
+    includes: [6, 2],
+    // bassPitch: 0,
+    // sopranoPitch: 0
 });
-// expect: 6, 2, 11
-// console.log(f)
-let c = new Chord([3,4], [1,0]);
 
-console.time("Excludes Filter")
+let c = new Chord([3,4], [1,0, 1]);
+
+console.time("Pitch Content Filters")
 console.log(f.matchPitchContent(c))
-console.timeEnd("Excludes Filter")
+console.timeEnd("Pitch Content Filters")
 
 
 
