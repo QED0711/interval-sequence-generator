@@ -92,7 +92,7 @@ class Filter{
             match = true;
             let transposedIncludes = this.includes.map(pc => {
                 let transposed = pc + i;
-                return transposed > 12 ? transposed - 12 : transposed;
+                return transposed % 12;
             });
             for(let j = 0; j < transposedIncludes.length; j++){
                 if(!chord.pcs[transposedIncludes[j]]) {
@@ -100,10 +100,12 @@ class Filter{
                     break;
                 }
             }
-            if(match) break
+            if(match){
+              // 12 - i gives the inverse which is the actual transposition we are looking for. 
+              transpositions.unshift(12 - i);  
+            } 
         }
-        return match
-        // Update this further to return an object that has the boolean return value and transpositions
+        return {match: !!transpositions.length, validTranspositions: transpositions};
     }
 
     matchExcludes(chord){
@@ -144,9 +146,11 @@ class Filter{
 }
 
 
-let f = new Filter({includes: [6,0,8]});
+let f = new Filter({includes: [6]});
+// expect: 6, 2, 11
 // console.log(f)
-let c = new Chord([3,4], [1,0,0,1,0,0]);
+let c = new Chord([3,4], [1,0]);
+
 console.time("Includes Filter")
 console.log(f.matchIncludes(c))
 console.timeEnd("Includes Filter")
