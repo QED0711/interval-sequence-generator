@@ -19,7 +19,11 @@ class App extends Component {
       generate: {
         currentChord: null,
         currentChordIndex: null,
-        currentCollection: null
+        currentCollection: null,
+      },
+      filterOptions: {
+        minSize: 2,
+        maxSize: 12
       },
       analyze: {
         currentPCSet: null,
@@ -29,6 +33,7 @@ class App extends Component {
     }
 
     this.setGenerateResults = this.setGenerateResults.bind(this);
+    this.setFilterOptions = this.setFilterOptions.bind(this);
     this.setAnalyzeResults = this.setAnalyzeResults.bind(this);
   }
 
@@ -39,6 +44,12 @@ class App extends Component {
         currentChordIndex: chordIndex,
         currentCollection: collection
       }
+    })
+  }
+
+  setFilterOptions(options){
+    this.setState({
+      filterOptions: options
     })
   }
 

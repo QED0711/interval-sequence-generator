@@ -78,8 +78,6 @@ describe("Filter Class", function(){
           bassPitch: 1,
           sopranoPitch: 8
         })
-        // console.log(f)
-        // console.log(f.matchPitchContent(chord3))
         expect(f.runFilters(chord3).passed).to.equal(false);
         
       })
