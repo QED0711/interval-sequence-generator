@@ -35,16 +35,13 @@ class Generator extends Component {
     }
 
     render = () => {
-        // let f = new Filter({
-        //     // includes: [1,8],
-        //     // maxSize: 4,
-        //     // sequence: [1,0]
-        // })
-        // console.time("generate time")
-        // console.log(newGenerateFromSet([3,4], f))
-        // console.timeEnd("generate time")
+        let f = new Filter(this.parentContainer.state.filterOptions)
+        console.log(f)
+        console.time("generate time")
+        console.log(newGenerateFromSet([3,4], f))
+        console.timeEnd("generate time")
 
-        console.log("FILTER OPTIONS: ", this.parentContainer.state.filterOptions)
+        // console.log("FILTER OPTIONS: ", this.parentContainer.state.filterOptions)
         const generateState = this.parentContainer.state.generate
         return(
             <div>
@@ -52,7 +49,7 @@ class Generator extends Component {
 
                 <button onClick={this.getChords}>Generate Sequences</button>
 
-                <FilterForm setFilterOptions={this.props.parentContainer.setFilterOptions} />
+                <FilterForm AppMethods={this.props.AppMethods}/>
 
                 <h1>Results: {generateState.currentChord ? generateState.currentCollection.length: "None"}</h1>
                 <div id="notation-container"></div>

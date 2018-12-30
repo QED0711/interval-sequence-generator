@@ -15,6 +15,7 @@ class App extends Component {
 
   constructor(){
     super();
+    // STATE =====================================================
     this.state = {
       generate: {
         currentChord: null,
@@ -32,9 +33,24 @@ class App extends Component {
       }
     }
 
+    
+    
+    // METHOD BINDINGS =====================================================
     this.setGenerateResults = this.setGenerateResults.bind(this);
     this.setFilterOptions = this.setFilterOptions.bind(this);
     this.setAnalyzeResults = this.setAnalyzeResults.bind(this);
+    this.setVectorFilterOptions = this.setVectorFilterOptions.bind(this);
+
+    // APP METHOD OBJECT =====================================================
+    this.AppMethods = {}
+    for(let item in this){
+      if(typeof this[item] === 'function' && item !== 'forceUpdate' && item !== 'setState'){
+        this.AppMethods[item] = this[item]
+      } 
+    }
+    console.log(this.AppMethods)
+
+
   }
 
   setGenerateResults(chordIndex, collection){
@@ -50,6 +66,15 @@ class App extends Component {
   setFilterOptions(options){
     this.setState({
       filterOptions: options
+    })
+  }
+  
+  setVectorFilterOptions(vectorFilter){
+    this.setState({
+      filterOptions: {
+       ...this,
+       vectorMatch: vectorFilter 
+      }
     })
   }
 
@@ -74,10 +99,10 @@ class App extends Component {
             </nav>                      
               <Route path="/" exact component={Landing}/>
               <Route path="/generate" exact 
-                render={props => <Generator {...props} parentContainer={this}/>} 
+                render={props => <Generator {...props} parentContainer={this} AppMethods={this.AppMethods}/>} 
               />
               <Route path="/analyze" exact 
-                render={props => <Analyzer {...props} parentContainer={this}/>}
+                render={props => <Analyzer {...props} parentContainer={this} AppMethods={this.AppMethods}/>}
               />
               <Route path="/info" exact component={Info} />
           </div>

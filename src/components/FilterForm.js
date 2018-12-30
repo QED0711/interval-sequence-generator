@@ -1,45 +1,123 @@
 import React from 'react';
 import Filter from '../js/Filter';
+import PITCH_KEYS from '../js/pitchKeys';
 
+import VectorFilter from '../js/VectorFilter';
 
+// COMPONENTS
+import VectorFilters from './VectorFilters';
 
 const FilterForm = (props) => {
     
-    function handleSubmit(e){
-        e.preventDefault();
-        const formValues = document.getElementById("filter-form").children
-        const minSize = parseInt(formValues[1].value)
-        const maxSize = parseInt(formValues[4].value)
-        console.log(formValues)
-        const options = {
-            minSize: minSize,
-            maxSize: maxSize
+    const {setFilterOptions} = props.AppMethods;
+
+
+
+    function handleChange(e){
+        
+        let minSize = parseInt(document.getElementById("filter-form-minSize").value);
+        let maxSize = parseInt(document.getElementById("filter-form-maxSize").value);
+        
+        let included = document.getElementById("filter-form-included").value.split(" ").map(x => PITCH_KEYS[x.toLowerCase()])
+        if(!included[0]) included = null;
+        
+        let excluded = document.getElementById("filter-form-excluded").value.split(" ").map(x => PITCH_KEYS[x.toLowerCase()])
+        if(!excluded[0]) excluded = null;
+        
+        let bassPitch = parseInt(PITCH_KEYS[document.getElementById("filter-form-bassPitch").value.toLowerCase()]);
+        if(isNaN(bassPitch)) bassPitch = null;
+        
+        let sopranoPitch = parseInt(PITCH_KEYS[document.getElementById("filter-form-sopranoPitch").value.toLowerCase()]);
+        if(isNaN(sopranoPitch)) sopranoPitch = null;
+        
+        let sequence = document.getElementById("filter-form-sequence").value.split(" ").map(x => parseInt(x));
+        if(isNaN(sequence[0])) sequence = null;
+        
+        let symetrical = document.getElementById("filter-form-symetrical").checked;
+        
+
+        const filterOptions = {
+            minSize,
+            maxSize,
+            included,
+            excluded,
+            bassPitch,
+            sopranoPitch,
+            sequence,
+            symetrical,
+            vectorMatch: getVectorFilters()
         }
-        props.setFilterOptions(options);
+
+        setFilterOptions(filterOptions);        
     }
+
+
+
+    function getVectorFilters(){
+        const vf = new VectorFilter()
+
+        const filters = document.getElementsByClassName("vector-filter");
+
+        for(let filter of filters){
+
+            let ic = filter.id.split("-")[1];
+           
+            let children = filter.children;
+           
+            let type = children[1].value
+            switch(type){
+                case("At Least"):
+                    type = "atLeast"
+                    break;
+                case("Fewer Than"):
+                    type = "lessThan"
+                    break;
+                case("Exactly"):
+                    type = "exactly"
+                    break;
+                default:
+                    type = null
+
+            }
+           
+            let value = children[2].value
+           
+            vf.setVector(ic, type, value);
+
+        }
+        return vf        
+    }
+
+    
 
     return(
         
-        <form id="filter-form" onSubmit={handleSubmit}>
+        <form id="filter-form">
             <h3>Chord Size</h3>
 
             <label>Minimum Length</label><br/>
-            <input type="number" defaultValue="2" /><br/>
+            <input id="filter-form-minSize" type="number" defaultValue="2" min="2" max="12" onChange={handleChange}/><br/>
             
             <label>Maximum Length</label><br/>
-            <input type="number" defaultValue="12" /><br/>
+            <input id="filter-form-maxSize" type="number" defaultValue="12" min="2" max="12" onChange={handleChange}/><br/>
             
             <h3>Pitch Content</h3>
             <label>included Pitches</label><br/>
-            <input type="text" placeholder="Included Pitches" /><br/>
+            <input id="filter-form-included" type="text" placeholder="e.g. Bb, C# etc." onChange={handleChange}/><br/>
             <label>Excluded Pitches</label><br/>
-            <input type="text" placeholder="Excluded Pitches" /><br/>
+            <input id="filter-form-excluded" type="text" placeholder="Excluded Pitches" onChange={handleChange}/><br/>
             <label>Bass Pitch</label><br/>
-            <input type="text" placeholder="Bass Pitch" /><br/>
+            <input id="filter-form-bassPitch" type="text" placeholder="Bass Pitch" onChange={handleChange}/><br/>
             <label>Soprano Pitch</label><br/>
-            <input type="text" placeholder="Soprano Pitch" /><br/>
+            <input id="filter-form-sopranoPitch" type="text" placeholder="Soprano Pitch" onChange={handleChange}/><br/>
             
-            <input type="submit" value="click me!!"/><br/>
+            <h3>Interval Structure</h3>
+            <label>Sequence</label><br/>
+            <input id="filter-form-sequence" type="text" placeholder="e.g. 0 1 2 3" onChange={handleChange}/><br/>
+            <label>Symetrical</label><br/>
+            <input id="filter-form-symetrical" type="checkbox" onChange={handleChange}/><br/>
+
+            <VectorFilters handleChange={handleChange}/>
 
         </form>
 
