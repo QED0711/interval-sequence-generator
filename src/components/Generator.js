@@ -36,7 +36,7 @@ class Generator extends Component {
 
                 
                 <button onClick={this.getChords}>Generate Sequences</button>
-                <h1>Results: {generateState.currentChord ? generateState.currentCollection.length * 12 : "None"}</h1>
+                <h1>Results: {generateState.currentChord ? generateState.currentCollection.length: "None"}</h1>
                 <div id="notation-container"></div>
                 <button onClick={function(){renderNotes([60, 62,64,66])}}>Render Them Notes</button>
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import analyze from '../js/analyzeVector'
-import Vector from '../js/vector';
+import Vector from '../js/vector.js';
 import { textToNumArray } from '../js/helperFunctions'
 
 class Analyzer extends Component {

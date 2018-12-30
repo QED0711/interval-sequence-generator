@@ -1,5 +1,5 @@
 
-import Vector from './vector';
+import Vector from './vector.js';
 
 function unique(pcs){
     return new Set(pcs).size === pcs.length;

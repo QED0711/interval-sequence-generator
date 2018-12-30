@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import App from './App';
 import Adapter from 'enzyme-adapter-react-16'
 
-import Vector from './js/vector';
+import Vector from './js/vector.mjs';
 import Filter from './js/Filter';
 import VectorFilter from './js/VectorFilter';
 
