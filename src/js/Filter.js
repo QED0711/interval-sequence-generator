@@ -1,25 +1,4 @@
 
-// Filters:
-//      min length
-//      max length
-//      contains pitches
-//      excludes pitches
-//      Has pitch as basss
-//      Vector Filters
-//      Has Interval Sequence
-//      Has symetrical Interval Sequence
-
-
-// expect(f.minSize).to.exist
-//       expect(f.maxSize).to.exist
-//       expect(f.contains).to.exist
-//       expect(f.excludes).to.exist
-//       expect(f.bassMatch).to.exist
-//       expect(f.sopranoMatch).to.exist
-//       expect(f.vectorMatch).to.exist
-//       expect(f.sequenceMatch).to.exist
-//       expect(f.symetrical).to.exist
-
 import VectorFilter from './VectorFilter';
 
 function isSymetrical(arr){
@@ -43,7 +22,7 @@ class Filter{
         this.symetrical = false;
     }
 
-    // Run the Filters against a chord
+    // Run all Filters against a chord
 
     runFilters(chord){
         if(!this.matchSize(chord)) return false // this filter always runs
@@ -127,27 +106,5 @@ class Filter{
     }
 
 }
-
-
-/* 
-
-chord input:
-{
-    codedSequence: (11) [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-    expandedPCS: (12) [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
-    intervalSequence: (11) [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
-    pcs: (12) [0, 5, 10, 3, 8, 1, 6, 11, 4, 9, 2, 7]
-    set: (2) [4, 5]
-    size: 12
-}
-
-*/
-
-// f = new Filter({
-//     minSize: 5,
-//     maxSize: 10
-// })
-
-// console.log(f)
 
 export default Filter;
