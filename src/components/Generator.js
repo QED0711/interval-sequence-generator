@@ -11,6 +11,7 @@ import Chord from '../js/newChord'
 
 import FilterForm from './FilterForm'
 import DisplayForm from './DisplayForm';
+import Notation from './Notation'
 
 class Generator extends Component {
 
@@ -45,10 +46,10 @@ class Generator extends Component {
         // console.timeEnd("generate time")
 
         // console.log("RENDER OPTIONS: ", this.parentContainer.state.renderOptions)
-        let currentChord;
-        if(this.props.state.generate.currentChord){
-            currentChord = Chord.fromChordObject(this.props.state.generate.currentChord);
-        }
+        // let currentChord;
+        // if(this.props.state.generate.currentChord){
+        //     currentChord = Chord.fromChordObject(this.props.state.generate.currentChord);
+        // }
         const generateState = this.parentContainer.state.generate
         return(
             <div>
@@ -58,20 +59,11 @@ class Generator extends Component {
 
                 <FilterForm AppMethods={this.props.AppMethods}/>
                 <DisplayForm AppMethods={this.props.AppMethods} state={this.props.state} />
-                <h1>Results: {generateState.currentChord ? generateState.currentCollection.length: "None"}</h1>
-                <div id="notation-container"></div>
+                <Notation state={this.props.state}/>
+                {/* <h1>Results: {generateState.currentChord ? generateState.currentCollection.length: "None"}</h1> */}
 
-                {
-                    currentChord && renderNotes(currentChord.getExpandedPCS().map(x => {
-                        return x + ((this.props.state.renderOptions.octave + 1) * 12)
-                    }))
-                }
 
                 {/* <button onClick={function(){renderNotes([60, 62,64,66])}}>Render Them Notes</button> */}
-
-                {
-                    console.log(generateState)
-                }
 
             </div>
         )
