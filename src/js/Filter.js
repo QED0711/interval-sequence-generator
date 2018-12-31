@@ -24,7 +24,7 @@ class Filter{
 
         this.sequence = options.sequence || null; 
         this.symetrical = options.symetrical || false;
-        this.vectorMatch =  new VectorFilter();
+        this.vectorMatch =  options.vectorMatch || new VectorFilter();
     }
 
     // Run all Filters against a chord

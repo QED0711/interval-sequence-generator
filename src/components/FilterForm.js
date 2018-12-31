@@ -18,11 +18,11 @@ const FilterForm = (props) => {
         let minSize = parseInt(document.getElementById("filter-form-minSize").value);
         let maxSize = parseInt(document.getElementById("filter-form-maxSize").value);
         
-        let included = document.getElementById("filter-form-included").value.split(" ").map(x => PITCH_KEYS[x.toLowerCase()])
-        if(!included[0]) included = null;
+        let includes = document.getElementById("filter-form-includes").value.split(" ").map(x => PITCH_KEYS[x.toLowerCase()])
+        if(!includes[0]) includes = null;
         
-        let excluded = document.getElementById("filter-form-excluded").value.split(" ").map(x => PITCH_KEYS[x.toLowerCase()])
-        if(!excluded[0]) excluded = null;
+        let excludes = document.getElementById("filter-form-excludes").value.split(" ").map(x => PITCH_KEYS[x.toLowerCase()])
+        if(!excludes[0]) excludes = null;
         
         let bassPitch = parseInt(PITCH_KEYS[document.getElementById("filter-form-bassPitch").value.toLowerCase()]);
         if(isNaN(bassPitch)) bassPitch = null;
@@ -39,15 +39,14 @@ const FilterForm = (props) => {
         const filterOptions = {
             minSize,
             maxSize,
-            included,
-            excluded,
+            includes,
+            excludes,
             bassPitch,
             sopranoPitch,
             sequence,
             symetrical,
             vectorMatch: getVectorFilters()
         }
-
         setFilterOptions(filterOptions);        
     }
 
@@ -80,7 +79,7 @@ const FilterForm = (props) => {
 
             }
            
-            let value = children[2].value
+            let value = parseInt(children[2].value)
            
             vf.setVector(ic, type, value);
 
@@ -103,9 +102,9 @@ const FilterForm = (props) => {
             
             <h3>Pitch Content</h3>
             <label>included Pitches</label><br/>
-            <input id="filter-form-included" type="text" placeholder="e.g. Bb, C# etc." onChange={handleChange}/><br/>
+            <input id="filter-form-includes" type="text" placeholder="e.g. Bb, C# etc." onChange={handleChange}/><br/>
             <label>Excluded Pitches</label><br/>
-            <input id="filter-form-excluded" type="text" placeholder="Excluded Pitches" onChange={handleChange}/><br/>
+            <input id="filter-form-excludes" type="text" placeholder="Excluded Pitches" onChange={handleChange}/><br/>
             <label>Bass Pitch</label><br/>
             <input id="filter-form-bassPitch" type="text" placeholder="Bass Pitch" onChange={handleChange}/><br/>
             <label>Soprano Pitch</label><br/>

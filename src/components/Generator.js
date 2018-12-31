@@ -38,7 +38,7 @@ class Generator extends Component {
         let f = new Filter(this.parentContainer.state.filterOptions)
         console.log(f)
         console.time("generate time")
-        console.log(newGenerateFromSet([3,4], f))
+        console.log(newGenerateFromSet([1,2,3,4,5,6], f))
         console.timeEnd("generate time")
 
         // console.log("FILTER OPTIONS: ", this.parentContainer.state.filterOptions)
