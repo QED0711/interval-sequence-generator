@@ -26,6 +26,12 @@ class App extends Component {
         minSize: 2,
         maxSize: 12
       },
+      renderOptions: {
+        octave: 4,
+        type: "standard",
+        playback: "arpeggiated",
+        playbackSpeed: "medium"
+      },
       analyze: {
         currentPCSet: null,
         currentPCSVector: null,
@@ -39,7 +45,8 @@ class App extends Component {
     this.setGenerateResults = this.setGenerateResults.bind(this);
     this.setFilterOptions = this.setFilterOptions.bind(this);
     this.setAnalyzeResults = this.setAnalyzeResults.bind(this);
-    this.setVectorFilterOptions = this.setVectorFilterOptions.bind(this);
+    this.setRenderOptions = this.setRenderOptions.bind(this);
+    // this.setVectorFilterOptions = this.setVectorFilterOptions.bind(this);
 
     // APP METHOD OBJECT =====================================================
     this.AppMethods = {}
@@ -48,7 +55,7 @@ class App extends Component {
         this.AppMethods[item] = this[item]
       } 
     }
-    console.log(this.AppMethods)
+    // console.log(this.AppMethods)
 
 
   }
@@ -69,13 +76,21 @@ class App extends Component {
     })
   }
   
-  setVectorFilterOptions(vectorFilter){
-    this.setState({
-      filterOptions: {
-       ...this,
-       vectorMatch: vectorFilter 
-      }
-    })
+  // setVectorFilterOptions(vectorFilter){
+  //   this.setState({
+  //     filterOptions: {
+  //      ...this,
+  //      vectorMatch: vectorFilter 
+  //     }
+  //   })
+  // }
+
+  setRenderOptions(options){
+    this.setState(
+      {
+          renderOptions: options
+        }
+    )
   }
 
   setAnalyzeResults(pcs, vector, results){
@@ -99,7 +114,7 @@ class App extends Component {
             </nav>                      
               <Route path="/" exact component={Landing}/>
               <Route path="/generate" exact 
-                render={props => <Generator {...props} parentContainer={this} AppMethods={this.AppMethods}/>} 
+                render={props => <Generator {...props} parentContainer={this} AppMethods={this.AppMethods} state={this.state}/>} 
               />
               <Route path="/analyze" exact 
                 render={props => <Analyzer {...props} parentContainer={this} AppMethods={this.AppMethods}/>}

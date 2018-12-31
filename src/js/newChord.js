@@ -9,6 +9,10 @@ class Chord {
         this.pcs = this.getPCS();        
     }
 
+    static fromChordObject(chordObj){
+        return new Chord(chordObj.set, chordObj.sequence);
+    }
+
     getPCS(){
         let chord = {0: true, size: 1}
         let prevPC = 0
@@ -45,6 +49,16 @@ class Chord {
             chord.push(nextPC) 
         }
         return chord
+    }
+
+    getExpandedPCS(){
+        let orderedPCS = this.getOrderedPCS();
+        for(let i = 1; i < orderedPCS.length; i++){
+            while(orderedPCS[i] < orderedPCS[i - 1]){
+                orderedPCS[i] += 12;
+            }
+        }
+        return orderedPCS;
     }
 
     expand(pcs){
