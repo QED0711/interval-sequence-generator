@@ -3,23 +3,26 @@ import React from 'react';
 import renderNotes from '../js/renderNotes';
 import Chord from '../js/newChord'
 
+import Transpositions from './Transpositions';
+
 const Notation = (props) => {
 
-    let currentChord;
+    let currentChord, currentTransposition;
     if(props.state.generate.currentChord){
-        currentChord = Chord.fromChordObject(props.state.generate.currentChord);
+        currentChord = props.state.generate.currentChord;
+        currentTransposition = props.state.generate.currentTransposition;
     }
-
     return(
         <section id="section-notation">
+            <Transpositions currentChord={currentChord} currentTransposition={currentTransposition} AppMethods={props.AppMethods}/>
             <div id="notation-container"></div>
-            <h1>This is where the notation will go</h1>
 
             {
-                    currentChord && renderNotes(currentChord.getExpandedPCS().map(x => {
-                        return x + ((props.state.renderOptions.octave + 1) * 12)
-                    }))
-                }            
+                currentChord && renderNotes(currentChord.getExpandedPCS().map(x => {
+                    return x + ((props.state.renderOptions.octave + 1) * 12)
+                }))
+            }            
+
         </section>
     )
 

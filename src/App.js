@@ -10,6 +10,7 @@ import Info from './components/Info'
 
 import Navigation from './components/Navigation'
 
+import Chord from './js/newChord';
 
 class App extends Component {
 
@@ -19,6 +20,7 @@ class App extends Component {
     this.state = {
       generate: {
         currentChord: null,
+        currentTransposition: null,
         currentChordIndex: null,
         currentCollection: null,
       },
@@ -46,6 +48,8 @@ class App extends Component {
     this.setFilterOptions = this.setFilterOptions.bind(this);
     this.setAnalyzeResults = this.setAnalyzeResults.bind(this);
     this.setRenderOptions = this.setRenderOptions.bind(this);
+    this.changeCurrentChord = this.changeCurrentChord.bind(this);
+    this.changeCurrentTransposition = this.changeCurrentTransposition.bind(this);
     // this.setVectorFilterOptions = this.setVectorFilterOptions.bind(this);
 
     // APP METHOD OBJECT =====================================================
@@ -61,12 +65,42 @@ class App extends Component {
   }
 
   setGenerateResults(chordIndex, collection){
+    let currentChord = Chord.fromChordObject(collection[chordIndex]);
+    currentChord = currentChord.transpose(currentChord.transpositions[0])
     this.setState({
       generate: {
-        currentChord: collection[chordIndex],
+        currentChord: currentChord,
+        currentTransposition: currentChord.transpositions[0],
         currentChordIndex: chordIndex,
         currentCollection: collection
       }
+    })
+  }
+
+  changeCurrentChord(chordIndex){
+    let collection = this.state.generate.currentCollection;
+    let currentChord = Chord.fromChordObject(collection[chordIndex]);
+    currentChord = currentChord.transpose(currentChord.transpositions[0])
+    this.setState({
+      generate: {
+        currentCollection: collection,
+        currentTransposition: currentChord.transpositions[0],
+        currentChordIndex: chordIndex,
+        currentChord: currentChord
+      }
+    })
+  }
+
+  changeCurrentTransposition(transposition){
+    let currentGenerateState = this.state.generate;
+    let currentChord = currentGenerateState.currentChord.transpose(transposition)
+    let generate = {
+      ...currentGenerateState, 
+      currentTransposition: transposition,
+      currentChord
+    }
+    this.setState({
+      generate
     })
   }
 
@@ -75,15 +109,6 @@ class App extends Component {
       filterOptions: options
     })
   }
-  
-  // setVectorFilterOptions(vectorFilter){
-  //   this.setState({
-  //     filterOptions: {
-  //      ...this,
-  //      vectorMatch: vectorFilter 
-  //     }
-  //   })
-  // }
 
   setRenderOptions(options){
     this.setState(

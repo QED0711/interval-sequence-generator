@@ -42,6 +42,7 @@ describe("Filter Class", function(){
         expect(f.vectorMatch).to.be.an.instanceof(VectorFilter)
         expect(f.sequence).to.be.null
         expect(f.symetrical).to.equal(false)
+        expect(f.allPCI).to.equal(false)
       })
   
     })
@@ -79,6 +80,11 @@ describe("Filter Class", function(){
           sopranoPitch: 8
         })
         expect(f.runFilters(chord3).passed).to.equal(false);
+
+        f.resetFilters();
+        f.setFilters({allPCI: true})
+        expect(f.runFilters(chord1).passed).to.equal(true);
+        expect(f.runFilters(chord3).passed).to.equal(false);
         
       })
       
@@ -103,6 +109,7 @@ describe("Filter Class", function(){
         expect(f.matchVector).to.exist;
         expect(f.matchUserSequence).to.exist;
         expect(f.matchSymetrical).to.exist;
+        expect(f.matchAllPCI).to.exist;
       })
       describe("Individual Filter Methods", function(){
         
@@ -175,6 +182,12 @@ describe("Filter Class", function(){
           f.setFilters({symetrical: true});
           expect(f.matchSymetrical(chord3)).to.equal(true);
           expect(f.matchSymetrical(chord2)).to.equal(false);
+        })
+
+        it("matchAllPCI only allows chords that have at least one of each PCI of the set", function(){
+          f.resetFilters()
+          expect(f.matchAllPCI(chord1)).to.equal(true);
+          expect(f.matchAllPCI(chord3)).to.equal(false);
         })
   
       })

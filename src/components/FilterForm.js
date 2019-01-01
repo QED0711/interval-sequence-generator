@@ -35,6 +35,7 @@ const FilterForm = (props) => {
         
         let symetrical = document.getElementById("filter-form-symetrical").checked;
         
+        let allPCI = document.getElementById("filter-form-allPCI").checked;
 
         const filterOptions = {
             minSize,
@@ -45,6 +46,7 @@ const FilterForm = (props) => {
             sopranoPitch,
             sequence,
             symetrical,
+            allPCI,
             vectorMatch: getVectorFilters()
         }
         setFilterOptions(filterOptions);        
@@ -115,6 +117,8 @@ const FilterForm = (props) => {
             <input id="filter-form-sequence" type="text" placeholder="e.g. 0 1 2 3" onChange={handleChange}/><br/>
             <label>Symetrical</label><br/>
             <input id="filter-form-symetrical" type="checkbox" onChange={handleChange}/><br/>
+            <label>Has All PCI Types</label><br/>
+            <input id="filter-form-allPCI" type="checkbox" onChange={handleChange}/><br/>
 
             <VectorFilters handleChange={handleChange}/>
 

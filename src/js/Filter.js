@@ -24,6 +24,7 @@ class Filter{
 
         this.sequence = options.sequence || null; 
         this.symetrical = options.symetrical || false;
+        this.allPCI = options.allPCI || false;
         this.vectorMatch =  options.vectorMatch || new VectorFilter();
     }
 
@@ -35,6 +36,7 @@ class Filter{
         if(validTranspositions.length === 0) return {passed: false}
         if(!!this.symetrical && !this.matchSymetrical(chord)) return {passed: false}
         if(!!this.sequence && !this.matchUserSequence(chord)) return {passed: false}
+        if(!!this.allPCI && !this.matchAllPCI(chord)) return {passed: false}
         // Vector filter always runs, 
         // but only if the other matches pass 
         // because it is slightly more costly to run 
@@ -200,6 +202,13 @@ class Filter{
 
     matchSymetrical(chord){
         return isSymetrical(chord.sequence);
+    }
+
+    matchAllPCI(chord){
+        for(let i = 0; i < chord.set.length; i++){ // turns the pcis back into coded intervals. Needed because sequence is a coded interval representation
+            if(chord.sequence.indexOf(i) < 0) return false
+        }
+        return true;
     }
 
 }

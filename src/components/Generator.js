@@ -34,7 +34,8 @@ class Generator extends Component {
         const filter = new Filter(this.parentContainer.state.filterOptions);
         if(intervalSet.length > 0){
             let collection = newGenerateFromSet(intervalSet, filter);
-            this.parentContainer.setGenerateResults(0, collection);
+            this.props.AppMethods.setGenerateResults(0, collection)
+            // this.parentContainer.setGenerateResults(0, collection);
         }
     }
 
@@ -51,6 +52,7 @@ class Generator extends Component {
         //     currentChord = Chord.fromChordObject(this.props.state.generate.currentChord);
         // }
         const generateState = this.parentContainer.state.generate
+        console.log(this.props.state.generate)
         return(
             <div>
                 <input type="text" id="interval-set"/>
@@ -59,12 +61,7 @@ class Generator extends Component {
 
                 <FilterForm AppMethods={this.props.AppMethods}/>
                 <DisplayForm AppMethods={this.props.AppMethods} state={this.props.state} />
-                <Notation state={this.props.state}/>
-                {/* <h1>Results: {generateState.currentChord ? generateState.currentCollection.length: "None"}</h1> */}
-
-
-                {/* <button onClick={function(){renderNotes([60, 62,64,66])}}>Render Them Notes</button> */}
-
+                <Notation state={this.props.state} AppMethods={this.props.AppMethods}/>
             </div>
         )
     }

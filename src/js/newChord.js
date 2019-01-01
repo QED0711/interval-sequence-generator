@@ -2,15 +2,16 @@ import Vector from './vector'
 
 
 class Chord {
-    constructor(set, sequence){
+    constructor(set, sequence, transpositions = [0]){
         this.set = set;
         this.sequence = sequence;
         this.designation = `(${set})-0-<${sequence}>`;
-        this.pcs = this.getPCS();        
+        this.pcs = this.getPCS();   
+        this.transpositions = transpositions;     
     }
 
     static fromChordObject(chordObj){
-        return new Chord(chordObj.set, chordObj.sequence);
+        return new Chord(chordObj.set, chordObj.sequence, chordObj.transpositions);
     }
 
     getPCS(){
