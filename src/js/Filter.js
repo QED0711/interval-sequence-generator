@@ -94,7 +94,7 @@ class Filter{
             }
             if(match){
               // 12 - i gives the inverse which is the actual transposition we are looking for. 
-              transpositions[12 - i] = 12 - i;
+              transpositions[(12 - i) % 12] = (12 - i) % 12;
               transpositions.length ++;
             } 
         }
@@ -110,7 +110,6 @@ class Filter{
                 let transposed = pc + i;
                 return transposed % 12;
             });
-
             for(let j = 0; j < transposedExcludes.length; j++){
                 if(chord.pcs[transposedExcludes[j]]) {
                     match = false;
@@ -119,7 +118,7 @@ class Filter{
             }
             if(match){
               // 12 - i gives the inverse which is the actual transposition we are looking for. 
-              transpositions[12 - i] = 12 - i;
+              transpositions[(12 - i) % 12] = (12 - i) % 12;
               transpositions.length ++;
             } 
         }
@@ -173,15 +172,15 @@ class Filter{
         let validTranspositions = []
         if(pcContent.length === 0) return [0];
         let match;
-        for(let i = 0; i < 12; i++){
+        for(let i = 0; i < 12; i++){ // 0 - 12 represents the pitch classes
             match = true;
-            for(let j = 0; j < pcContent.length; j++){
+            for(let j = 0; j < pcContent.length; j++){ // j is the index of the return values of each of theabove filters
                 if(typeof pcContent[j].validTranspositions[i] !== 'number'){
                     match = false
                     break;
                 }
             }
-            if(match) validTranspositions.push(i); 
+            if(match) validTranspositions.push(i); // if match was never set to false, then the transposition is fine
         }
         return validTranspositions;
     }

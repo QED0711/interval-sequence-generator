@@ -19,10 +19,10 @@ const FilterForm = (props) => {
         let maxSize = parseInt(document.getElementById("filter-form-maxSize").value);
         
         let includes = document.getElementById("filter-form-includes").value.split(" ").map(x => PITCH_KEYS[x.toLowerCase()])
-        if(!includes[0]) includes = null;
+        if(typeof includes[0] !== 'number') includes = null;
         
         let excludes = document.getElementById("filter-form-excludes").value.split(" ").map(x => PITCH_KEYS[x.toLowerCase()])
-        if(!excludes[0]) excludes = null;
+        if(typeof excludes[0] !== 'number') excludes = null;
         
         let bassPitch = parseInt(PITCH_KEYS[document.getElementById("filter-form-bassPitch").value.toLowerCase()]);
         if(isNaN(bassPitch)) bassPitch = null;
@@ -49,6 +49,7 @@ const FilterForm = (props) => {
             allPCI,
             vectorMatch: getVectorFilters()
         }
+        console.log(filterOptions)
         setFilterOptions(filterOptions);        
     }
 
