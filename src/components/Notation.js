@@ -4,9 +4,9 @@ import renderNotes from '../js/renderNotes';
 import Chord from '../js/newChord'
 
 import Transpositions from './Transpositions';
+import ChordSelector from './ChordSelector';
 
 const Notation = (props) => {
-
     let currentChord, currentTransposition;
     if(props.state.generate.currentChord){
         currentChord = props.state.generate.currentChord;
@@ -14,7 +14,13 @@ const Notation = (props) => {
     }
     return(
         <section id="section-notation">
-            <Transpositions currentChord={currentChord} currentTransposition={currentTransposition} AppMethods={props.AppMethods}/>
+            {
+                currentChord &&
+                <div id="current-chord-options">
+                    <ChordSelector state={props.state} AppMethods={props.AppMethods}/>
+                    <Transpositions currentChord={currentChord} currentTransposition={currentTransposition} AppMethods={props.AppMethods}/>
+                </div>
+            }
             <div id="notation-container"></div>
 
             {
