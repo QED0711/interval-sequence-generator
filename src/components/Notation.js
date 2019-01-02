@@ -5,6 +5,7 @@ import Chord from '../js/newChord'
 
 import Transpositions from './Transpositions';
 import ChordSelector from './ChordSelector';
+import ChordInfo from './ChordInfo';
 
 const Notation = (props) => {
     let currentChord, currentTransposition;
@@ -19,6 +20,7 @@ const Notation = (props) => {
                 <div id="current-chord-options">
                     <ChordSelector state={props.state} AppMethods={props.AppMethods}/>
                     <Transpositions currentChord={currentChord} currentTransposition={currentTransposition} AppMethods={props.AppMethods}/>
+                    <ChordInfo currentChord={currentChord} />
                 </div>
             }
             <div id="notation-container"></div>
