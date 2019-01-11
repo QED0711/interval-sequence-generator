@@ -39,6 +39,7 @@ class Analyzer extends Component {
                 <button onClick={this.getAnalyzeResults}>Run Analysis</button>
 
                 <h1>Results: {analyzeState.currentPCSet ?  analyzeState.validSets.length : "None"}</h1>
+                {console.log(analyzeState.validSets)}
             </div>
         )
     }

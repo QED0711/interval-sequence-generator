@@ -22,6 +22,11 @@ const ChordIndo = (props) => {
                 </div>
                 
                 <div className="chord-info-box">
+                    <h4>Vector:</h4>
+                    <p>{currentChord.getVector().print("[]")}</p>
+                </div>
+                
+                <div className="chord-info-box">
                     <h4>Chord Size:</h4>
                     <p>{currentChord.pcs.size}</p>
                 </div>

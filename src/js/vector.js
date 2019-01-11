@@ -26,7 +26,7 @@ class Vector{
     }
 
     print(brackets = "<>"){
-        console.log(`${brackets[0]}${this[1]}, ${this[2]}, ${this[3]}, ${this[4]}, ${this[5]}, ${this[6]}${brackets[1]}`)
+        return(`${brackets[0]}${this[1]}, ${this[2]}, ${this[3]}, ${this[4]}, ${this[5]}, ${this[6]}${brackets[1]}`)
     }
 
     toArray(){
